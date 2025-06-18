@@ -11,7 +11,8 @@ steps:
   args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}', '.']
 
 # Configure Docker to use Google Cloud as a credential helper
-- name: 'gcr.io/cloud-builders/docker'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
   args: ['auth', 'configure-docker', '${_REGION}-docker.pkg.dev']
 
 # Push the container image to Artifact Registry
