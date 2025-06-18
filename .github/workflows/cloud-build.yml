@@ -28,7 +28,7 @@ env:
   REPOSITORY: brainbloom
   IMAGE_NAME: backend
   SERVICE_NAME: brainbloom-backend
-  SERVICE_ACCOUNT: github-actions-mindmate@static-concept-459810-q7.iam.gserviceaccount.com
+  SERVICE_ACCOUNT: github-actions-brainbloom@static-concept-459810-q7.iam.gserviceaccount.com
 
 jobs:
   deploy-backend:
