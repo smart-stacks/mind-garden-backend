@@ -1,0 +1,43 @@
+substitutions:
+  _REGION: europe-west2
+  _REPOSITORY: brainbloom
+  _IMAGE_NAME: backend
+  _SERVICE_NAME: brainbloom-backend
+
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}', '.']
+
+# Configure Docker to use Google Cloud as a credential helper
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['auth', 'configure-docker', '${_REGION}-docker.pkg.dev']
+
+# Push the container image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}']
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'run'
+  - 'deploy'
+  - '${_SERVICE_NAME}'
+  - '--image'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}'
+  - '--region'
+  - '${_REGION}'
+  - '--platform'
+  - 'managed'
+  - '--allow-unauthenticated'
+
+# Print the URL of the deployed service
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: sh
+  args:
+  - '-c'
+  - |
+    echo "***********************"
+    echo "Service deployed to: https://$(gcloud run services describe ${_SERVICE_NAME} --region=${_REGION} --format='value(status.url)')"
+    echo "***********************"
