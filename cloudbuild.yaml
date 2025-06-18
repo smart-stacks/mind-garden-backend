@@ -3,6 +3,7 @@ substitutions:
   _REPOSITORY: brainbloom
   _IMAGE_NAME: backend
   _SERVICE_NAME: brainbloom-backend
+  _GEMINI_API_KEY: ""  # Will be provided by GitHub Actions
 
 steps:
 # Build the container image
@@ -31,6 +32,8 @@ steps:
   - '--platform'
   - 'managed'
   - '--allow-unauthenticated'
+  - '--set-env-vars'
+  - 'GOOGLE_API_KEY=${_GEMINI_API_KEY}'
 
 # Print the URL of the deployed service
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
