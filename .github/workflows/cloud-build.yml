@@ -6,6 +6,12 @@ on:
     paths:
       - '**'  # Only trigger on changes to backend files
       - '!.github/**'  # Ignore changes to GitHub files
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**'  # Only trigger on changes to backend files
+      - '!.github/**'  # Ignore changes to GitHub files
+
   workflow_dispatch:  # Allows manual triggering
     inputs:
       region:
@@ -15,7 +21,6 @@ on:
         type: choice
         options:
           - 'europe-west2'
-          - 'us-central1'
 
 env:
   PROJECT_ID: static-concept-459810-q7
