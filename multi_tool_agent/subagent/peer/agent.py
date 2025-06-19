@@ -5,7 +5,6 @@ based on user needs and preferences.
 """
 
 from google.adk.agents import Agent
-from google.adk.tools.agent_tool import AgentTool
 from multi_tool_agent.shared_libraries.types import json_response_config
 from multi_tool_agent.shared_libraries.mcp_context import mcp_context_tool
 from multi_tool_agent.shared_libraries.mcp_schemas import PeerSupportMatch

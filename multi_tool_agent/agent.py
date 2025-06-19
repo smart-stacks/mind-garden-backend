@@ -10,8 +10,7 @@ from dotenv import load_dotenv
 from . import prompt
 from .subagent.detection.agent import detection_agent
 from .subagent.risk_assessment.agent import risk_assessment_agent
-from .subagent.escalation.agent import escalation_agent
-from .subagent.resources.agent import resources_agent
+from .subagent.companion.agent import companion_agent
 from .subagent.peer.agent import peer_agent
 from .subagent.followup.agent import followup_agent
 from .shared_libraries.mcp_context import mcp_context_tool, get_mcp_context_for_agent, update_mcp_context_from_agent
@@ -42,8 +41,7 @@ root_agent = LlmAgent(
     description="A mental health support system using specialized subagents for user support.",
     instruction=prompt.WELLNESS_APP_AGENT_PROMPT,
     sub_agents=[
-        detection_agent,  # detection_agent already has escalation_agent and resources_agent as sub-agents
-        risk_assessment_agent,
+        companion_agent,
         peer_agent,
         followup_agent
     ],

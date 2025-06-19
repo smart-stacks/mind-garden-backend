@@ -26,7 +26,6 @@ python -m venv .venv
 #### Install ADK
 ```bash
 pip install google-adk -q
-pip install litellm -q
 ```
 
 ### Set up the model
