@@ -19,23 +19,13 @@ Task:
 Example Flow:
 1. User message received.
 2. Invoke DetectionAgent to classify risk.
-3. If risk is not 'none', pass to RiskAssessmentAgent.
+3. If risk is not 'none', pass to ResourceAgent.
 4. If escalation is needed, invoke EscalationAgent and/or ResourceAgent.
 5. If professional help is required, pass to AppointmentBookingAgent.
 6. Compile all agent outputs into one final response.
 
 Result: 
-Respond ONLY in this JSON format:
-{
-  "subagent_calls": [
-    {"agent": "DetectionAgent", "input": "...", "output": "..."},
-    {"agent": "RiskAssessmentAgent", "input": "...", "output": "..."},
-    ...
-  ],
-  "final_summary": "...",
-  "recommended_action": "...",
-  "next_steps": "..."
-}
+Invoke the relevant subagent(s) based on the user's situation and return a structured response from the output from the agents.
 
 Nuance: Only use the minimal set of agents required for the user's situation. Always explain any escalations or recommendations clearly and respectfully.
 """

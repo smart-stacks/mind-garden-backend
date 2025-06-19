@@ -4,6 +4,7 @@ from typing import Optional, Union
 
 from google.genai import types
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 
 # Convenient declaration for controlled generation.
@@ -13,14 +14,10 @@ json_response_config = types.GenerateContentConfig(
 
 class RiskDetectionResponse(BaseModel):
     """Response model for risk detection."""
-    risk_level: str = Field(
-        ...,
-        description="The level of risk detected in the user message. Possible values: 'none', 'mild', 'moderate', 'high'."
-    )
-    reason: Optional[str] = Field(
-        None,
-        description="A brief explanation of why this risk level was assigned."
-    )
+    risk_score: float  # 0.0 (no risk) to 1.0 (high risk)
+    risk_level: str    # "low", "medium", "high"
+    reason: Optional[str] = None
+    timestamp: Optional[datetime] = None
 
 class ResourceSearchResponse(BaseModel):
     """Response model for resource search."""
