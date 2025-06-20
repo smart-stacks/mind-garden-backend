@@ -5,6 +5,8 @@ substitutions:
   _SERVICE_NAME: brainbloom-backend
   _GEMINI_API_KEY: ""  # Will be provided by GitHub Actions
 
+# Custom logs bucket will be provided via --gcs-log-dir flag
+
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
