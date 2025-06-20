@@ -2,236 +2,121 @@
 
 ## Overview
 
-Mind Garden is a mental health support system that uses a coordinated multi-agent architecture to detect, assess, and respond to users experiencing mental health crises. The system employs five specialized agents working in sequence to provide appropriate support based on the severity and nature of the user's situation.
+Mind Garden is a modular, AI-powered mental health support system that uses a coordinated multi-agent architecture to detect, assess, and respond to users experiencing mental health crises. The system employs multiple specialized agents working together to provide appropriate support based on the severity and nature of the user's situation.
 
 ## System Architecture
 
-The system follows a sequential workflow with five specialized agents:
+The system is orchestrated by a **Root Orchestrator Agent** that manages the flow of information and delegates tasks to the following specialized subagents:
 
 ```
-Detection Agent → Risk Assessment → Escalation Agent → Priority Routing → 
-Resource Agent → Appointment Booking → Peer Agent → Match & Connect → 
-Follow-up Agent → Proactive Monitoring
+                  User Input
+                        ↓
+            Root Orchestrator Agent
+   ↓                 ↓              ↓
+[Companion Agent]  [Peer Agent]  [Follow-up Agent]
+
+[Companion Agent] → [Detection Agent] → [Risk Assessment Agent] → [Escalation Agent]
+   ↓
+[Resource Agent]
 ```
 
-### Root Orchestrator Agent
+- **Companion Agent**: Provides supportive conversation and can invoke Detection and Risk Assessment Agents if new risks are detected during chat.
+- **Detection Agent**: Scans user input for signs of distress or risk and classifies risk level.
+- **Risk Assessment Agent**: Performs detailed analysis if risk is detected, determining severity and urgency.
+- **Escalation Agent**: Handles priority routing and escalation to human or emergency services when needed.
+- **Resource Agent**: Recommends relevant resources, hotlines, and support services based on user needs and risk.
+- **Peer Agent**: Connects users to local or online peer support groups and communities.
+- **Follow-up Agent**: Schedules and manages ongoing check-ins and progress tracking.
 
-The Root Orchestrator coordinates the entire workflow, managing the flow of information between specialized agents and ensuring appropriate handoffs occur based on assessment results.
+### Orchestration Logic
 
-**Responsibilities:**
-- Receive and analyze initial user input
-- Determine which agents to invoke and in what order
-- Pass context and results between agents
-- Compile final responses with summaries and recommended actions
+The Root Orchestrator Agent:
+- Receives and analyzes user input and context.
+- Decides which subagents to invoke and in what order, based on user needs and prior agent results.
+- Aggregates and passes relevant context/results between agents.
+- Returns a final structured response with a summary, recommended actions, and next steps.
+
+**Typical Workflow:**
+1. **Initial Input:** User message received.
+2. **Supportive Chat:** If the user requests a supportive chat, the Companion Agent is invoked.
+   - If the Companion Agent detects risk, it invokes the Detection Agent.
+   - If Detection Agent finds risk, the Risk Assessment Agent is invoked.
+3. **Risk Handling:** If risk is 'moderate', 'high', or 'critical', Escalation Agent is invoked.
+4. **Peer Support:** If risk is 'mild' or the user expresses a need for community, Peer Agent is invoked.
+5. **Resource Recommendation:** Resource Agent is always invoked to recommend resources.
+6. **Follow-up:** Follow-up Agent is always invoked to suggest or schedule follow-up.
+7. **Response Compilation:** All agent outputs are compiled into a final, structured response.
+
+**Nuance:** The system uses only the minimal set of agents required for the user's situation, always explaining escalations or recommendations clearly and respectfully.
+
+
+---
 
 ## Specialized Agents
 
-### 1. Detection Agent
+### Companion Agent
+- **Purpose:** Provides ongoing supportive conversation and can trigger risk detection/escalation if needed.
+- **Input:** User messages and context.
+- **Output:** Supportive responses, and if risk is detected, invokes Detection and Risk Assessment Agents.
 
-**Purpose:** Serves as the first line of analysis for all user inputs, scanning for signs of emotional distress, crisis, or risk.
+### Detection Agent
+- **Purpose:** First line of analysis, scanning for emotional distress, crisis, or risk.
+- **Input:** User messages and conversation history.
+- **Output:** Risk classification (none, mild, moderate, high, critical) with reasoning.
 
-**Inputs:** User messages and conversation history
-**Outputs:** Risk classification (none, mild, moderate, high) with reasoning
+### Risk Assessment Agent
+- **Purpose:** Deep analysis of flagged cases to determine severity and response.
+- **Input:** User messages, history, Detection Agent output.
+- **Output:** Detailed risk assessment and recommended response level.
 
-**Key Functions:**
-- Pattern recognition for crisis indicators
-- Initial classification of risk level
-- Identification of emotional state and potential concerns
+### Escalation Agent
+- **Purpose:** Determines routing and escalation for high-risk cases.
+- **Input:** Risk assessment details, user context.
+- **Output:** Escalation decision and routing information.
 
-**Implementation Details:**
-- Uses keyword analysis and semantic understanding
-- Maintains a database of risk indicators and warning signs
-- Passes risk assessment to the Risk Assessment Agent when concerns are detected
+### Appointment Booking Agent
+- **Purpose:** Schedules appointments with mental health professionals when needed.
+- **Input:** Risk assessment, escalation decision.
+- **Output:** Appointment details or booking confirmation.
 
-### 2. Risk Assessment Agent
+### Resource Agent
+- **Purpose:** Recommends resources and support services.
+- **Input:** User context, risk assessment, escalation decision.
+- **Output:** Resource recommendations and information.
 
-**Purpose:** Performs deeper analysis on cases flagged by the Detection Agent to determine severity and appropriate response paths.
+### Peer Agent
+- **Purpose:** Connects users to peer support options.
+- **Input:** User preferences, risk assessment, resource recommendations.
+- **Output:** Peer support matches and connection details (local groups, online communities, e.g., 7 Cups).
 
-**Inputs:** User messages, conversation history, Detection Agent assessment
-**Outputs:** Detailed risk assessment with recommended response level
+### Follow-up Agent
+- **Purpose:** Manages ongoing monitoring and follow-up.
+- **Input:** User history, previous interactions, resource utilization.
+- **Output:** Follow-up schedule, check-in messages, progress tracking.
 
-**Key Functions:**
-- Detailed analysis of risk factors
-- Assessment of immediacy and severity
-- Determination of appropriate response pathway
-
-**Implementation Details:**
-- Uses structured risk assessment frameworks
-- Considers multiple factors including:
-  - Expressed intent
-  - Access to means
-  - Previous history
-  - Support systems
-- Recommends appropriate escalation level
-
-### 3. Escalation Agent
-
-**Purpose:** Determines the appropriate routing for cases based on risk assessment and manages the priority of response.
-
-**Inputs:** Risk assessment details, user context
-**Outputs:** Escalation decision and routing information
-
-**Key Functions:**
-- Priority determination for cases
-- Routing to appropriate resources
-- Escalation to human intervention when necessary
-
-**Implementation Details:**
-- Implements triage protocols based on risk level
-- Manages queue priority for different types of cases
-- Provides emergency protocols for high-risk situations
-- Coordinates with external emergency services when necessary
-
-### 4. Resource Agent
-
-**Purpose:** Identifies and recommends appropriate resources based on user needs and risk assessment.
-
-**Inputs:** User context, risk assessment, escalation decision
-**Outputs:** Resource recommendations and appointment booking options
-
-**Key Functions:**
-- Resource matching based on user needs
-- Appointment scheduling with mental health professionals
-- Information provision about support services
-
-**Implementation Details:**
-- Maintains database of mental health resources
-- Uses search tools to find relevant external resources
-- Provides information on crisis hotlines, support groups, and professional services
-- Handles appointment scheduling logic and availability checking
-
-### 5. Peer Agent
-
-**Purpose:** Facilitates connections with peer support options when appropriate.
-
-**Inputs:** User preferences, risk assessment, resource recommendations
-**Outputs:** Peer support matches and connection details
-
-**Key Functions:**
-- Matching users with appropriate peer support options
-- Facilitating initial connections
-- Providing guidance on peer support interactions
-
-**Implementation Details:**
-- Maintains database of peer support options
-- Implements matching algorithms based on experiences and needs
-- Provides connection protocols and safety guidelines
-
-### 6. Follow-up Agent
-
-**Purpose:** Manages ongoing monitoring and follow-up for users after initial crisis response.
-
-**Inputs:** User history, previous interactions, resource utilization
-**Outputs:** Follow-up schedule, check-in messages, progress tracking
-
-**Key Functions:**
-- Scheduling follow-up interactions
-- Monitoring progress and resource utilization
-- Detecting changes in risk level over time
-
-**Implementation Details:**
-- Implements scheduling system for follow-ups
-- Uses pattern recognition to detect changes in user state
-- Provides continuity of care through persistent memory of user context
-- Re-engages Detection Agent when new concerns arise
+---
 
 ## Data Flow
 
-1. **Initial Input Processing:**
-   - User message received by Root Orchestrator
-   - Root Orchestrator passes message to Detection Agent
+1. **User Input:** Received by Root Orchestrator.
+2. **Risk Detection:** Detection Agent classifies risk.
+3. **Risk Assessment:** If risk detected, Risk Assessment Agent performs detailed analysis.
+4. **Escalation & Appointment:** For moderate/high/critical risk, Escalation and Appointment Booking Agents are invoked.
+5. **Resource & Peer Support:** Resource Agent recommends resources; Peer Agent connects to support groups if appropriate.
+6. **Follow-up:** Follow-up Agent schedules ongoing support.
+7. **Companion Chat:** Companion Agent provides ongoing conversation and can re-trigger risk detection as needed.
+8. **Final Response:** All outputs are aggregated and returned to the user.
 
-2. **Risk Detection & Assessment:**
-   - Detection Agent classifies initial risk level
-   - If risk detected, Risk Assessment Agent performs detailed analysis
-   - Assessment results passed to Escalation Agent
+---
+## Extensibility & Future Enhancements
 
-3. **Response Determination:**
-   - Escalation Agent determines appropriate response pathway
-   - For immediate risks, emergency protocols activated
-   - For non-emergency cases, Resource Agent engaged
+- **Personalization:** Adaptive recommendations based on user history and preferences.
+- **Integration Expansion:** More resource databases, peer networks, and healthcare provider connections.
+- **Modality Extensions:** Voice, image, and multi-platform support.
+- **Additional Agents:** Mood Tracking, Psychoeducation, Mindfulness/CBT Exercise, Crisis Intervention, Feedback Collection.
 
-4. **Resource Provision:**
-   - Resource Agent identifies appropriate support options
-   - Appointment booking facilitated if professional help needed
-   - Peer support options identified when appropriate
-
-5. **Ongoing Support:**
-   - Follow-up Agent schedules check-ins
-   - Monitoring continues with periodic reassessment
-   - New inputs restart the detection process
-
-## Implementation Considerations
-
-### Technical Requirements
-
-1. **Agent Communication Protocol:**
-   - Standardized JSON format for inter-agent communication
-   - Structured data passing with context preservation
-   - Error handling and fallback mechanisms
-
-2. **Data Storage:**
-   - Secure storage of user interaction history
-   - Privacy-preserving design for sensitive information
-   - Compliance with healthcare data regulations
-
-3. **Integration Points:**
-   - External resource databases
-   - Appointment scheduling systems
-   - Emergency services notification protocols
-   - Peer support matching systems
-
-### Safety & Ethics Considerations
-
-1. **Crisis Protocol:**
-   - Clear procedures for high-risk situations
-   - Immediate escalation paths for suicidal ideation
-   - Human oversight for critical decisions
-
-2. **Privacy Protection:**
-   - Data minimization principles
-   - Secure handling of sensitive information
-   - User consent mechanisms for data usage
-
-3. **Effectiveness Monitoring:**
-   - Ongoing evaluation of agent performance
-   - Regular review of escalation decisions
-   - Continuous improvement based on outcomes
-
-## Future Enhancements
-
-1. **Personalization:**
-   - Learning from user interaction history
-   - Customized resource recommendations
-   - Adaptive response based on user preferences
-
-2. **Integration Expansion:**
-   - Additional resource databases
-   - More specialized peer support networks
-   - Direct integration with healthcare providers
-
-3. **Modality Extensions:**
-   - Voice-based interaction support
-   - Image/video analysis for additional signals
-   - Multi-platform support (mobile, web, messaging)
-
-## Implementation Roadmap
-
-### Phase 1: Core Agent Development
-- Implement Detection and Risk Assessment Agents
-- Develop basic Escalation protocols
-- Create initial Resource recommendation system
-
-### Phase 2: Advanced Functionality
-- Implement Peer Agent matching system
-- Develop Follow-up scheduling and monitoring
-- Enhance inter-agent communication
-
-### Phase 3: Integration & Refinement
-- Connect to external resource databases
-- Implement appointment booking systems
-- Develop comprehensive testing and validation
+---
 
 ## Conclusion
 
-The 5-Agent Crisis Response System provides a comprehensive approach to mental health crisis detection and response. By separating concerns into specialized agents while maintaining coordinated workflow, the system can deliver appropriate support based on user needs while ensuring critical situations receive proper attention and escalation.
+Mind Garden’s modular, multi-agent design enables safe, scalable, and user-centered mental health support. By orchestrating specialized agents and leveraging both AI and human expertise, the system delivers timely, personalized, and effective care for users in need.

@@ -1,9 +1,6 @@
 """Resource Agent in a mental wellness support system that searches Google for relevant resources."""
 
-from google.adk.agents import Agent
 from google.adk.agents import LlmAgent
-from google.adk.tools.agent_tool import AgentTool
-from multi_tool_agent.shared_libraries.types import ResourceSearchResponse,json_response_config
 from . import prompt
 from multi_tool_agent.tools.search import google_search_grounding
 

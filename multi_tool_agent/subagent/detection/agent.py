@@ -1,8 +1,6 @@
 """Detection agent. specializing in analyzing user messages for signs of emotional distress."""
 import os
 from google.adk.agents import LlmAgent
-from google.adk.tools.agent_tool import AgentTool
-from multi_tool_agent.subagent.resources.agent import resources_agent
 from multi_tool_agent.subagent.escalation.agent import escalation_agent
 from multi_tool_agent.shared_libraries.types import RiskDetectionResponse, json_response_config
 from . import prompt
@@ -19,5 +17,5 @@ detection_agent = LlmAgent(
     name="detection_agent",
     description="Agent specialized in analyzing user messages for signs of emotional distress.",
     instruction=prompt.DETECTION_PROMPT,
-    sub_agents=[resources_agent, escalation_agent]
+    sub_agents=[escalation_agent]
 )
