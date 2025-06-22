@@ -44,7 +44,7 @@ The Root Orchestrator Agent:
 3. **Risk Handling:** If risk is 'moderate', 'high', or 'critical', Escalation Agent is invoked.
 4. **Peer Support:** If risk is 'mild' or the user expresses a need for community, Peer Agent is invoked.
 5. **Resource Recommendation:** Resource Agent is always invoked to recommend resources.
-6. **Follow-up:** Follow-up Agent is always invoked to suggest or schedule follow-up.
+6. **Follow-up:** Follow-up Agent is invoked to suggest or prepare follow-up plans.
 7. **Response Compilation:** All agent outputs are compiled into a final, structured response.
 
 **Nuance:** The system uses only the minimal set of agents required for the user's situation, always explaining escalations or recommendations clearly and respectfully.
@@ -96,27 +96,11 @@ The Root Orchestrator Agent:
 
 ---
 
-## Data Flow
-
-1. **User Input:** Received by Root Orchestrator.
-2. **Risk Detection:** Detection Agent classifies risk.
-3. **Risk Assessment:** If risk detected, Risk Assessment Agent performs detailed analysis.
-4. **Escalation & Appointment:** For moderate/high/critical risk, Escalation and Appointment Booking Agents are invoked.
-5. **Resource & Peer Support:** Resource Agent recommends resources; Peer Agent connects to support groups if appropriate.
-6. **Follow-up:** Follow-up Agent schedules ongoing support.
-7. **Companion Chat:** Companion Agent provides ongoing conversation and can re-trigger risk detection as needed.
-8. **Final Response:** All outputs are aggregated and returned to the user.
-
----
 ## Extensibility & Future Enhancements
 
 - **Personalization:** Adaptive recommendations based on user history and preferences.
 - **Integration Expansion:** More resource databases, peer networks, and healthcare provider connections.
 - **Modality Extensions:** Voice, image, and multi-platform support.
-- **Additional Agents:** Mood Tracking, Psychoeducation, Mindfulness/CBT Exercise, Crisis Intervention, Feedback Collection.
+- **Additional Agents:** Mood tracking agent, Appointment Booking agent, Daily or weekly Activity Suggestion Agent.
 
 ---
-
-## Conclusion
-
-Mind Garden’s modular, multi-agent design enables safe, scalable, and user-centered mental health support. By orchestrating specialized agents and leveraging both AI and human expertise, the system delivers timely, personalized, and effective care for users in need.
