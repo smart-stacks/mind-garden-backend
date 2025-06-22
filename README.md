@@ -17,8 +17,7 @@ Mind Garden is a modular, AI-powered backend system that orchestrates a team of 
 ---
 ## Multi-agent system
 
-![alt text](<MindGarden_MultiAgent.png>)
-
+![alt text](MindGarden_MutliAgent.png)
 
 ## 🧰 Tech Stack
 - **Backend**: Google adk python application
