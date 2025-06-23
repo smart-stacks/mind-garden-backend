@@ -1,4 +1,14 @@
 import os
+import sys
+from pathlib import Path
+
+# Load environment variables from .env file
+from dotenv import load_dotenv
+
+# Get the directory where main.py is located
+BASE_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+# Load .env file from the project root
+load_dotenv(BASE_DIR / ".env")
 
 import uvicorn
 from fastapi import FastAPI
@@ -15,7 +25,7 @@ AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Set up CORS allowed origins
 ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Vite default development server
-    "http://localhost:8080",  # Backend URL when running locally
+    "*",  # Backend URL when running locally
     "https://mindgarden-6xntrakg7q-nw.a.run.app",  # Cloud Run backend URL
     os.getenv("FRONTEND_URL", "https://mindgarden-app-431880575932.europe-west2.run.app")  # Production frontend
 ]
@@ -34,8 +44,10 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"],
+    expose_headers=["Content-Type", "Authorization"],
+    max_age=600
 )
 
 # Include the authentication router

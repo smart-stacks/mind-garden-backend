@@ -99,6 +99,9 @@ async def google_callback(code: str):
         
         # Redirect to frontend
         redirect_url = f"{FRONTEND_URL}?token={access_token}"
+        print(f"Redirecting to: {redirect_url}")
+        print(f"FRONTEND_URL from env: {os.environ.get('FRONTEND_URL', 'Not set')}")
+        print(f"FRONTEND_URL used: {FRONTEND_URL}")
         return RedirectResponse(url=redirect_url)
         
     except Exception as e:
