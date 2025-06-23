@@ -25,7 +25,7 @@ from google.adk.cli.fast_api import get_fast_api_app
 
 # Import the routers
 from auth import router as auth_router
-from chat_api import router as chat_router
+# from chat_api import router as chat_router
 
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -67,7 +67,7 @@ app.add_middleware(
 
 # Include the routers
 app.include_router(auth_router)
-app.include_router(chat_router)
+# app.include_router(chat_router)
 
 # Root endpoint
 @app.get("/")
