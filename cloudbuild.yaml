@@ -2,7 +2,7 @@ substitutions:
   _REGION: europe-west2
   _REPOSITORY: mindgarden
   _IMAGE_NAME: backend
-  _SERVICE_NAME: mindgarden-backend
+  _SERVICE_NAME: mindgarden
   _GEMINI_API_KEY: ""  # Will be provided by GitHub Actions
 
 # Custom logs bucket will be provided via --gcs-log-dir flag

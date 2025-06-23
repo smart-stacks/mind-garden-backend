@@ -25,9 +25,9 @@ on:
 env:
   PROJECT_ID: static-concept-459810-q7
   REGION: europe-west2
-  REPOSITORY: brainbloom
+  REPOSITORY: mindgarden
   IMAGE_NAME: backend
-  SERVICE_NAME: brainbloom-backend
+  SERVICE_NAME: mindgarden
   SERVICE_ACCOUNT: github-actions-brainbloom@static-concept-459810-q7.iam.gserviceaccount.com
 
 jobs:
