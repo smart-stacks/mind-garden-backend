@@ -1,6 +1,14 @@
 import os
 import sys
+import logging
 from pathlib import Path
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Load environment variables from .env file
 from dotenv import load_dotenv
@@ -15,8 +23,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from google.adk.cli.fast_api import get_fast_api_app
 
-# Import the auth router
+# Import the routers
 from auth import router as auth_router
+# from chat_api import router as chat_router
 
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -25,10 +34,16 @@ AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Set up CORS allowed origins
 ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Vite default development server
-    "*",  # Backend URL when running locally
+    "http://localhost:8080",  # Backend URL when running locally
     "https://mindgarden-6xntrakg7q-nw.a.run.app",  # Cloud Run backend URL
     os.getenv("FRONTEND_URL", "https://mindgarden-app-431880575932.europe-west2.run.app")  # Production frontend
 ]
+
+# Log environment variables for debugging
+logger.info(f"FRONTEND_URL: {os.getenv('FRONTEND_URL', 'Not set')}")
+logger.info(f"REDIRECT_URI: {os.getenv('REDIRECT_URI', 'Not set')}")
+logger.info(f"Allowed origins: {ALLOWED_ORIGINS}")
+
 # Set web=True if you intend to serve a web interface, False otherwise
 SERVE_WEB_INTERFACE = True
 
@@ -50,8 +65,9 @@ app.add_middleware(
     max_age=600
 )
 
-# Include the authentication router
+# Include the routers
 app.include_router(auth_router)
+# app.include_router(chat_router)
 
 # Root endpoint
 @app.get("/")

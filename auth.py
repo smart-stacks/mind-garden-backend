@@ -5,11 +5,15 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 import os
 import jwt
+import logging
 from datetime import datetime, timedelta
 from typing import Dict, Optional
 import requests as req
 import json
 import secrets
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 # Configuration
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "YOUR_GOOGLE_CLIENT_ID").strip('"')
@@ -39,7 +43,12 @@ def create_jwt_token(user_data: Dict) -> str:
 @router.get("/google")
 async def google_login():
     """Redirect to Google OAuth login"""
+    # Log configuration for debugging
+    logger.info(f"Google login - CLIENT_ID: {GOOGLE_CLIENT_ID[:5]}...")
+    logger.info(f"Google login - REDIRECT_URI: {REDIRECT_URI}")
+    
     auth_url = f"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope=openid%20email%20profile&access_type=offline&prompt=consent"
+    logger.info(f"Redirecting to Google auth URL: {auth_url}")
     return RedirectResponse(url=auth_url)
 
 @router.get("/google/callback")
@@ -99,9 +108,9 @@ async def google_callback(code: str):
         
         # Redirect to frontend
         redirect_url = f"{FRONTEND_URL}?token={access_token}"
-        print(f"Redirecting to: {redirect_url}")
-        print(f"FRONTEND_URL from env: {os.environ.get('FRONTEND_URL', 'Not set')}")
-        print(f"FRONTEND_URL used: {FRONTEND_URL}")
+        logger.info(f"Redirecting to: {redirect_url}")
+        logger.info(f"FRONTEND_URL from env: {os.environ.get('FRONTEND_URL', 'Not set')}")
+        logger.info(f"FRONTEND_URL used: {FRONTEND_URL}")
         return RedirectResponse(url=redirect_url)
         
     except Exception as e:
