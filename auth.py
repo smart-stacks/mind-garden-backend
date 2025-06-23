@@ -18,7 +18,7 @@ JWT_SECRET = os.environ.get("JWT_SECRET", secrets.token_hex(32)).strip('"')
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 # Use environment variable for redirect URI with a development fallback
 # Make sure this matches exactly what's configured in Google Cloud Console
-REDIRECT_URI = os.environ.get("REDIRECT_URI", "http://localhost:8080/auth/callback")
+REDIRECT_URI = os.environ.get("REDIRECT_URI", "https://mindgarden-6xntrakg7q-nw.a.run.app/auth/callback" if os.environ.get("ENVIRONMENT") == "production" else "http://localhost:8080/auth/callback")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_MINUTES = 60 * 24  # 24 hours
 
@@ -42,7 +42,7 @@ async def google_login():
     auth_url = f"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope=openid%20email%20profile&access_type=offline&prompt=consent"
     return RedirectResponse(url=auth_url)
 
-@router.get("/callback")
+@router.get("/google/callback")
 async def google_callback(code: str):
     """Handle Google OAuth callback"""
     try:

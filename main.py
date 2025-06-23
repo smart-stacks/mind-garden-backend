@@ -16,7 +16,7 @@ AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Vite default development server
     "http://localhost:8080",  # Backend URL when running locally
-    "*",
+    "https://mindgarden-6xntrakg7q-nw.a.run.app",  # Cloud Run backend URL
     os.getenv("FRONTEND_URL", "https://mindgarden-app-431880575932.europe-west2.run.app")  # Production frontend
 ]
 # Set web=True if you intend to serve a web interface, False otherwise
