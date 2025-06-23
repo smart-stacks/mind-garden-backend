@@ -15,10 +15,10 @@ import secrets
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "YOUR_GOOGLE_CLIENT_ID").strip('"')
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "YOUR_GOOGLE_CLIENT_SECRET").strip('"')
 JWT_SECRET = os.environ.get("JWT_SECRET", secrets.token_hex(32)).strip('"')
-FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "https://mindgarden-app-6xntrakg7q-nw.a.run.app")
 # Use environment variable for redirect URI with a development fallback
 # Make sure this matches exactly what's configured in Google Cloud Console
-REDIRECT_URI = os.environ.get("REDIRECT_URI", "https://mindgarden-6xntrakg7q-nw.a.run.app/auth/callback" if os.environ.get("ENVIRONMENT") == "production" else "http://localhost:8080/auth/callback")
+REDIRECT_URI = os.environ.get("REDIRECT_URI", "https://mindgarden-6xntrakg7q-nw.a.run.app/auth/google/callback")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_MINUTES = 60 * 24  # 24 hours
 
