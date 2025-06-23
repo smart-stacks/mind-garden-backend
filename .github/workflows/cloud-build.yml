@@ -69,10 +69,6 @@ jobs:
         _REPOSITORY=${{ env.REPOSITORY }},\
         _IMAGE_NAME=${{ env.IMAGE_NAME }},\
         _SERVICE_NAME=${{ env.SERVICE_NAME }},\
-        _GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }},\
-        _GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},\
-        _GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},\
-        _JWT_SECRET=${{ secrets.JWT_SECRET }},\
         _FRONTEND_URL=${{ secrets.FRONTEND_URL }},\
         _REDIRECT_URI=${{ secrets.REDIRECT_URI }}
         
