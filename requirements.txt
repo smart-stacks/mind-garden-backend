@@ -5,3 +5,7 @@ python-dotenv>=1.0.0
 pydantic>=2.0.0
 pytest>=7.0.0
 uvicorn>=0.21.0
+fastapi>=0.100.0
+google-auth>=2.22.0
+pyjwt>=2.10.1
+requests>=2.31.0

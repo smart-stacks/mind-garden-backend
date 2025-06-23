@@ -4,6 +4,11 @@ substitutions:
   _IMAGE_NAME: backend
   _SERVICE_NAME: mindgarden
   _GEMINI_API_KEY: ""  # Will be provided by GitHub Actions
+  _GOOGLE_CLIENT_ID: ""  # Will be provided by GitHub Actions
+  _GOOGLE_CLIENT_SECRET: ""  # Will be provided by GitHub Actions
+  _JWT_SECRET: ""  # Will be provided by GitHub Actions
+  _FRONTEND_URL: ""  # Will be provided by GitHub Actions
+  _REDIRECT_URI: ""  # Will be provided by GitHub Actions
 
 # Custom logs bucket will be provided via --gcs-log-dir flag
 
@@ -36,7 +41,7 @@ steps:
   - 'managed'
   - '--allow-unauthenticated'
   - '--set-env-vars'
-  - 'GOOGLE_API_KEY=${_GEMINI_API_KEY}'
+  - 'GOOGLE_API_KEY=${_GEMINI_API_KEY},GOOGLE_CLIENT_ID=${_GOOGLE_CLIENT_ID},GOOGLE_CLIENT_SECRET=${_GOOGLE_CLIENT_SECRET},JWT_SECRET=${_JWT_SECRET},FRONTEND_URL=${_FRONTEND_URL},REDIRECT_URI=${_REDIRECT_URI}'
 
 # Print the URL of the deployed service
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
