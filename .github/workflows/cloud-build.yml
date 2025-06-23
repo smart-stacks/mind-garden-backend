@@ -61,9 +61,6 @@ jobs:
 
     - name: Build and Deploy Backend
       run: |
-        # Set environment variables for deployment
-        GEMINI_API_KEY="${{ secrets.GEMINI_API_KEY }}"
-        
         # Build and submit with Cloud Build - use async flag to avoid waiting for logs
         gcloud builds submit --config=cloudbuild.yaml \
         --async \
@@ -72,7 +69,8 @@ jobs:
         _REPOSITORY=${{ env.REPOSITORY }},\
         _IMAGE_NAME=${{ env.IMAGE_NAME }},\
         _SERVICE_NAME=${{ env.SERVICE_NAME }},\
-        _GEMINI_API_KEY=${GEMINI_API_KEY}
+        _FRONTEND_URL=${{ secrets.FRONTEND_URL }},\
+        _REDIRECT_URI=${{ secrets.REDIRECT_URI }}
         
     - name: Display deployed service URL
       run: |

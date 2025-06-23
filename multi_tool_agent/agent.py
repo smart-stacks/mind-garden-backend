@@ -5,6 +5,7 @@ import uuid
 from zoneinfo import ZoneInfo
 from google.adk.agents import Agent
 from google.adk.agents import LlmAgent
+import google.generativeai as genai
 from google.genai import types # For creating message Content/Parts
 from dotenv import load_dotenv
 from . import prompt
@@ -30,6 +31,12 @@ print("Libraries imported.")
 load_dotenv()
 
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+
+# Configure the Google Generative AI client with the API key
+if not GOOGLE_API_KEY:
+    raise ValueError("GOOGLE_API_KEY environment variable is not set. Please set it in your .env file.")
+
+genai.configure(api_key=GOOGLE_API_KEY)
 
 MODEL_GEMINI_2_0_FLASH = "gemini-2.0-flash"
 
